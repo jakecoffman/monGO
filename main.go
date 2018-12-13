@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/mongodb/mongo-go-driver/bson/objectid"
-	"github.com/mongodb/mongo-go-driver/mongo"
 	"log"
+
+	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/mongodb/mongo-go-driver/mongo"
 )
 
 type Thing struct {
-	Id objectid.ObjectID `bson:"_id"`
+	ID    primitive.ObjectID `bson:"_id"`
 	Hello string
 }
 
@@ -23,7 +24,7 @@ func main() {
 	jake := client.Database("jake")
 	c := jake.Collection("collection")
 
-	_, err = c.InsertOne(nil, Thing{objectid.New(), "Hi"})
+	_, err = c.InsertOne(nil, Thing{primitive.NewObjectID(), "Hi"})
 	if err != nil {
 		log.Fatal(err)
 	}

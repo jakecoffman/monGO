@@ -1,10 +1,11 @@
 package main
 
 import (
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
-	"github.com/mongodb/mongo-go-driver/mongo"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Thing struct {
@@ -13,7 +14,9 @@ type Thing struct {
 }
 
 func main() {
-	client, err := mongo.NewClient("mongodb://localhost")
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +32,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	cursor, err := c.Find(nil, nil)
+	cursor, err := c.Find(nil, &Thing{})
 	if err != nil {
 		log.Fatal(err)
 	}
